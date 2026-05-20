@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
+from album_controller import AlbumController
+
 # GUI - GÖKSUN GÜREL
 class AlbumCoverStudio(tk.Tk):
     # ── Color Palette (Spotify Aesthetic) ──────────────────────────
@@ -22,8 +24,19 @@ class AlbumCoverStudio(tk.Tk):
         self.minsize(900, 680)
 
         # Initialize UI components
+
+
         self._setup_styles()
+
+        self.controller = None
+
         self._build_ui()
+
+        self.controller = AlbumController(self)
+
+        self.gen_btn.config(
+command=self.controller.start_generation
+    )
 
     def _setup_styles(self):
         style = ttk.Style(self)
@@ -135,7 +148,10 @@ class AlbumCoverStudio(tk.Tk):
                   style="Sub.TLabel", background=self.BG).pack(pady=12)
 
     def update_status(self, message):
-        self.status_var.set(f"● {message}")
+        self.after(
+            0,
+            lambda: self.status_var.set(f"● {message}")
+        )
 
 if __name__ == "__main__":
     app = AlbumCoverStudio()
