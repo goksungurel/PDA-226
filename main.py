@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import webbrowser
 
 from album_controller import AlbumController
 
@@ -169,12 +170,15 @@ command=self.controller.start_generation
         track_frame = tk.Frame(self.right_frame, bg=self.BG)
         track_frame.pack(fill="both", expand=True, padx=50)
 
-        for i, track in enumerate(tracks[:10]):
+        for i, track in enumerate(tracks):
+            row = tk.Frame(track_frame, bg=self.BG)
+            row.pack(fill="x", pady=2)
             track_text = f"{i + 1}. {track['title']} - {track['artist']}"
-            ttk.Label(track_frame, text=track_text, background=self.BG, foreground=self.SUBTEXT).pack(anchor="w",
-                                                                                                      pady=2)
+            ttk.Label(row, text=track_text, background=self.BG, foreground=self.SUBTEXT).pack(side="left")
+            ttk.Button(row, text="Listen", command=lambda u=track['url']: webbrowser.open(u)).pack(side="right")
+
         save_btn = ttk.Button(self.right_frame, text="SAVE ALBUM", style="Generate.TButton",
-                              command=self.controller.save_current_album)
+                            command=self.controller.save_current_album)
         save_btn.pack(pady=30)
 
 if __name__ == "__main__":
