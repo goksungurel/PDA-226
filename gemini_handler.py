@@ -27,7 +27,7 @@ class GeminiManager:
          "label" : "Fictional record label name",
          "mood_description" : "An evocative and poetic 1-2 sentence description...",
          "cover_prompt" : "A detailed visual description for an AI image generator to create the album cover. It must reflect the visual aesthetic of the {genre} genre and MUST NOT include any text or letters.",
-         "lastfm_tags": ["4-6 lowercase English music tags that actually exist on Last.fm, representing the {genre} and {era} accurately (e.g., 'synthwave', '80s pop')"]
+         "lastfm_tags": ["Array of exactly 6 lowercase tags. The first 3 MUST strictly combine the {era} and {genre} (e.g., '2000s hip hop', '00s rap'). The last 3 MUST act as a fallback, focusing ONLY on the {journal_text} and {genre} without the era (e.g., 'dark rap', 'street hip hop') in case exact era matches are rare."]
         }}
         
         """

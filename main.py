@@ -153,6 +153,30 @@ command=self.controller.start_generation
             lambda: self.status_var.set(f"● {message}")
         )
 
+    def display_album(self, cover_img, album_data, tracks):
+        for widget in self.right_frame.winfo_children():
+            widget.destroy()
+
+        if cover_img:
+            cover_resized = cover_img.resize((250, 250), Image.Resampling.LANCZOS)
+            self.tk_cover = ImageTk.PhotoImage(cover_resized)
+            ttk.Label(self.right_frame, image=self.tk_cover, background=self.BG).pack(pady=(40, 15))
+
+        ttk.Label(self.right_frame, text=album_data.get("album_name", "Unknown Album"), style="Title.TLabel").pack()
+        ttk.Label(self.right_frame, text=album_data.get("artist_name", "Unknown Artist"), style="Sub.TLabel").pack(
+            pady=(0, 20))
+
+        track_frame = tk.Frame(self.right_frame, bg=self.BG)
+        track_frame.pack(fill="both", expand=True, padx=50)
+
+        for i, track in enumerate(tracks[:10]):
+            track_text = f"{i + 1}. {track['title']} - {track['artist']}"
+            ttk.Label(track_frame, text=track_text, background=self.BG, foreground=self.SUBTEXT).pack(anchor="w",
+                                                                                                      pady=2)
+        save_btn = ttk.Button(self.right_frame, text="SAVE ALBUM", style="Generate.TButton",
+                              command=self.controller.save_current_album)
+        save_btn.pack(pady=30)
+
 if __name__ == "__main__":
     app = AlbumCoverStudio()
     app.mainloop()
